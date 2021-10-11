@@ -26,7 +26,7 @@ provider:
     apiGateway: true
 
   environment:
-    BLOGS_TABLE: blogs-${self:provider.stage}
+    BLOGS_TABLE: blogs-table-${self:provider.stage}
     BLOG_BUCKET: blogs-${self:provider.stage}-daniel-show-oops
     BLOGS_CREATED_AT_INDEX: BlogsCreatedAtIndex
     SIGNED_URL_EXPIRATION: 300
