@@ -4,7 +4,16 @@ service:
 plugins:
   - serverless-webpack
   - serverless-iam-roles-per-function
-
+custom:
+  webpack:
+    webpackConfig: "./webpack.config.js"
+    includeModules: true
+  documentation:
+    api:
+      info:
+        version: 1.0.0
+        title: Serverless Blog
+        description: Serverless application
 package:
   individually: true
 provider:
