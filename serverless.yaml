@@ -139,7 +139,7 @@ resources:
         - AttributeName: blogId
           AttributeType: S
         - AttributeName: published
-          AttributeType: BOOL
+          AttributeType: S
         KeySchema:
         - AttributeName: userId
           KeyType: HASH
