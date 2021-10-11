@@ -1,11 +1,11 @@
 import * as AWS from "aws-sdk";
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
-import * as AWSXray from 'aws-xray-sdk';
+// import * as AWSXray from 'aws-xray-sdk';
 
 import { BlogItem } from "../models/BlogItem";
 import { BlogUpdate } from "../models/BlogUpdate";
 
-const XAWS = AWSXray.captureAWS(AWS)
+// const XAWS = AWSXray.captureAWS(AWS)
 
 export class BlogAccess {
   constructor(
@@ -14,19 +14,16 @@ export class BlogAccess {
   ) {}
 
   async getAllBlogs(): Promise<BlogItem[]> {
-    const result = await this.docClient
-    .query({
-      TableName: this.blogsTable,
-      KeyConditionExpression: 'published = :published',
-      ExpressionAttributeValues: {
-        ':published': true
-      }
-    })
-    .promise()
-
-    const items = result.Items.filter(item => item.published);
-
-    return items as BlogItem[];
+    try {
+      const result = await this.docClient.scan({
+        TableName: this.blogsTable,
+      }).promise()
+      const items = result.Items.filter(item => item.published);
+  
+      return items as BlogItem[];
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   async getUserBlogs(userId: string): Promise<BlogItem[]> {
@@ -109,11 +106,11 @@ export class BlogAccess {
 function createDynamoDBClient() {
   if (process.env.IS_OFFLINE) {
     console.log("Creating a local DynamoDB instance");
-    return new XAWS.DynamoDB.DocumentClient({
+    return new AWS.DynamoDB.DocumentClient({
       region: "localhost",
       endpoint: "http://localhost:8000"
     });
   }
 
-  return new XAWS.DynamoDB.DocumentClient();
+  return new AWS.DynamoDB.DocumentClient();
 }

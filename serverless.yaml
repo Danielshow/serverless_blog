@@ -26,7 +26,7 @@ provider:
     apiGateway: true
 
   environment:
-    BLOGS_TABLE: blogs-table-${self:provider.stage}
+    BLOGS_TABLE: blogs-${self:provider.stage}
     BLOG_BUCKET: blogs-${self:provider.stage}-daniel-show-oops
     BLOGS_CREATED_AT_INDEX: BlogsCreatedAtIndex
     SIGNED_URL_EXPIRATION: 300
@@ -40,7 +40,7 @@ functions:
     iamRoleStatements:
       - Effect: "Allow"        
         Action:
-          - dynamodb:Query        
+          - dynamodb:Scan        
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.BLOGS_TABLE}
     events:
       - http:
@@ -138,7 +138,7 @@ resources:
           AttributeType: S
         - AttributeName: blogId
           AttributeType: S
-        - AttributeName: published
+        - AttributeName: createdAt
           AttributeType: S
         KeySchema:
         - AttributeName: userId
@@ -152,7 +152,7 @@ resources:
             KeySchema:
               - AttributeName: userId
                 KeyType: HASH
-              - AttributeName: published
+              - AttributeName: createdAt
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
