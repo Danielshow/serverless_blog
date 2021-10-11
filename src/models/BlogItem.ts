@@ -2,9 +2,8 @@ export interface BlogItem {
     userId: string
     blogId: string
     createdAt: string
-    published: string
+    published: boolean
     publishedAt?: string
-    status: string
     attachmentUrl?: string
     content: string
     title: string
