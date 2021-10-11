@@ -13,7 +13,7 @@ export async function getBlogs(): Promise<Blog[]> {
     },
   })
   console.log('Blogs:', response.data)
-  return response.data.items
+  return response.data['items']
 }
 
 export async function getUserBlogs(idToken: string): Promise<Blog[]> {
@@ -26,7 +26,7 @@ export async function getUserBlogs(idToken: string): Promise<Blog[]> {
     },
   })
   console.log('Blogs for a user:', response.data)
-  return response.data.items
+  return response.data['items']
 }
 
 export async function createBlog(
@@ -39,7 +39,10 @@ export async function createBlog(
       'Authorization': `Bearer ${idToken}`
     }
   })
-  return response.data.item
+  const blog = response.data as unknown as {
+    item: Blog
+  }
+  return blog.item;
 }
 
 export async function patchBlog(
@@ -77,7 +80,10 @@ export async function getUploadUrl(
       'Authorization': `Bearer ${idToken}`
     }
   })
-  return response.data.uploadUrl
+  const blog = response.data as unknown as {
+    uploadUrl: string
+  }
+  return blog.uploadUrl
 }
 
 export async function uploadFile(uploadUrl: string, file: Buffer): Promise<void> {

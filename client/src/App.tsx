@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Component } from 'react';
+import { Router, Route, Switch } from "react-router-dom";
+import "./assets/css/bootstrap.min.css";
+import "./assets/css/now-ui-kit.min.css";
+import "./assets/css/custom.css"
+import LandingPage from './pages/LandingPage';
+import BlogsPage from './pages/BlogsPage';
+import Auth from './auth/Auth'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export interface AppProps {}
+
+export interface AppProps {
+  auth: Auth
+  history: any
 }
 
-export default App;
+export interface AppState {}
+
+export default class App extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props)
+
+    this.handleLogin = this.handleLogin.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
+  }
+
+  handleLogin() {
+    this.props.auth.login()
+  }
+
+  handleLogout() {
+    this.props.auth.logout()
+  }
+
+  render() {
+    return (
+      <Router history={this.props.history}>
+        <div className="App">
+          <Switch>
+            <Route
+              path="/blogs"
+              render={(props) => <BlogsPage {...props} auth={this.props.auth} handleLogin={this.handleLogin} handleLogout={this.handleLogout}/>}
+            />
+            <Route
+              path="/"
+              render={(props) => <LandingPage {...props} auth={this.props.auth} handleLogin={this.handleLogin} handleLogout={this.handleLogout}/>}
+            />
+          </Switch>
+        </div>
+      </Router>
+    )
+  }
+}
