@@ -18,7 +18,7 @@ provider:
 
   environment:
     BLOGS_TABLE: blogs-${self:provider.stage}
-    BLOG_BUCKET: blogs-${self:provider.stage}-daniel-show
+    BLOG_BUCKET: blogs-${self:provider.stage}-daniel-show-oops
     BLOGS_CREATED_AT_INDEX: BlogsCreatedAtIndex
     SIGNED_URL_EXPIRATION: 300
 
@@ -164,7 +164,6 @@ resources:
             AllowedOrigins:
             - "*"
             MaxAge: 3000
-
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:

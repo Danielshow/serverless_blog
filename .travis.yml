@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - 13
+
+cache:
+  directories:
+    - node_modules
+
+# Pre-testing installs
+install:
+  - npm install -g serverless
+  - sls config credentials --provider aws --key "$AWS_ACCESS_KEY_ID" --secret "$AWS_SECRET_ACCESS_KEY" --profile serverless
+  - npm install
+  - export NODE_OPTIONS="--max-old-space-size=8192"
+
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+
+script:
+  - serverless --version # print the version for logging
+
+after_success:
+  - sls deploy -v
