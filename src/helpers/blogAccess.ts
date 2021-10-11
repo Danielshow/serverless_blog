@@ -14,16 +14,14 @@ export class BlogAccess {
   ) {}
 
   async getAllBlogs(): Promise<BlogItem[]> {
-    try {
-      const result = await this.docClient.scan({
-        TableName: this.blogsTable,
-      }).promise()
-      const items = result.Items.filter(item => item.published);
-  
-      return items as BlogItem[];
-    } catch(err) {
-      console.log(err)
-    }
+    const result = await this.docClient.scan({
+      TableName: this.blogsTable,
+      FilterExpression: 'published = :published',
+      ExpressionAttributeValues: {
+        ':published': true
+      }
+    }).promise()  
+    return result.Items as BlogItem[];
   }
 
   async getUserBlogs(userId: string): Promise<BlogItem[]> {
