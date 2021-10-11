@@ -138,8 +138,8 @@ resources:
           AttributeType: S
         - AttributeName: blogId
           AttributeType: S
-        - AttributeName: createdAt
-          AttributeType: S
+        - AttributeName: published
+          AttributeType: BOOL
         KeySchema:
         - AttributeName: userId
           KeyType: HASH
@@ -152,7 +152,7 @@ resources:
             KeySchema:
               - AttributeName: userId
                 KeyType: HASH
-              - AttributeName: createdAt
+              - AttributeName: published
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL

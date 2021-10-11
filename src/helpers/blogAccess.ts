@@ -17,6 +17,10 @@ export class BlogAccess {
     const result = await this.docClient
     .query({
       TableName: this.blogsTable,
+      KeyConditionExpression: 'published = :published',
+      ExpressionAttributeValues: {
+        ':published': true
+      }
     })
     .promise()
 
@@ -51,6 +55,7 @@ export class BlogAccess {
   }
 
   async updateBlog(blogId: string, blog: BlogUpdate, userId: string): Promise<BlogUpdate> {
+    let publishedAt = blog.published ? new Date().toISOString() : null;
     await this.docClient
         .update({
           TableName: this.blogsTable,
@@ -59,11 +64,12 @@ export class BlogAccess {
             userId
           },
           UpdateExpression:
-            'set title = :title, content = :content, published = :published',
+            'set title = :title, content = :content, published = :published, publishedAt = :publishedAt',
           ExpressionAttributeValues: {
             ':title': blog.title,
             ':content': blog.title,
-            ':published': blog.published
+            ':published': blog.published,
+            ':publishedAt': publishedAt
           }
         })
         .promise()
