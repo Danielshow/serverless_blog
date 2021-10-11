@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import BlogaNavbar from "../components/BlogaNavbar.js";
-import { Container } from "reactstrap";
+import { Button, Container, NavLink } from "reactstrap";
 import Auth from "../auth/Auth"
 import { getBlogs } from '../api/blogs-api'
 import { Blog } from '../types/Blog' 
 import { Link } from 'react-router-dom'
-import { Dimmer, Loader } from 'semantic-ui-react'
+import { Dimmer, Loader, Modal } from 'semantic-ui-react'
+import BlogPage from '../components/BlogPage'
 
 interface BlogProps {
     auth: Auth
@@ -17,6 +18,8 @@ interface BlogProps {
 function BlogsPage(props: BlogProps) {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [clickedBlog, setClickedBlog] = useState<Blog | null>(null);
+  const [open, setOpen] = React.useState(false)
 
   useEffect(() => {
     getBlogs().then((blogs) => {
@@ -40,9 +43,12 @@ function BlogsPage(props: BlogProps) {
               <section className="cards-wrapper">
                 { blogs.map((blog: Blog) => {
                   return (
-                      <div className="card-grid-space">
-                      <Link
-                        to={`/blogs/${blog.blogId}`}
+                    <div className="card-grid-space" key={blog.blogId}>
+                      <NavLink
+                        onClick={() => {
+                          setClickedBlog(blog);
+                          setOpen(true);
+                        }}
                         className="card-blog"
                       >
                         <div>
@@ -52,11 +58,12 @@ function BlogsPage(props: BlogProps) {
                           </p>
                           <div className="date">{blog.publishedAt}</div>
                         </div>
-                      </Link>
+                      </NavLink>
                     </div>
                   )
                 })}
               </section>
+              { clickedBlog && (<BlogPage blog={clickedBlog} open={open} setOpen={setOpen} />) }
             </Container>
           </div>
         </div>
