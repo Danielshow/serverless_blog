@@ -7,7 +7,7 @@ import { BlogUpdate } from "../models/BlogUpdate";
 
 const XAWS = AWSXray.captureAWS(AWS)
 
-export class TodoAccess {
+export class BlogAccess {
   constructor(
     private readonly docClient: DocumentClient = createDynamoDBClient(),
     private readonly blogsTable = process.env.BLOGS_TABLE,
@@ -89,13 +89,13 @@ export class TodoAccess {
     return null;
   }
 
-  async blogExists(todoId: string, userId: string) {
+  async blogExists(blogId: string, userId: string) {
     const result = await this.docClient
       .query({
         TableName: this.blogsTable,
         KeyConditionExpression: 'blogId = :blogId and userId = :userId',
         ExpressionAttributeValues: {
-          ':todoId': todoId,
+          ':blogId': blogId,
           ':userId': userId
         }
       })

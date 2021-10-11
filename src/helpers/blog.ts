@@ -1,12 +1,12 @@
 import * as uuid from 'uuid'
 import { BlogItem } from '../models/BlogItem'
 import { BlogUpdate } from '../models/BlogUpdate'
-import { TodoAccess } from './blogAccess'
+import { BlogAccess } from './blogAccess'
 import { CreateBlogRequest } from '../requests/CreateBlogRequest'
 import { UpdateBlogRequest } from '../requests/UpdateBlogRequest'
 import { BlogFileStorage } from './attachmentUtils'
 
-const blogAccess = new TodoAccess()
+const blogAccess = new BlogAccess()
 const fileStorage = new BlogFileStorage()
 const bucketName = process.env.BLOG_BUCKET
 
