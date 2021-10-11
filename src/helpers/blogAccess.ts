@@ -17,14 +17,10 @@ export class BlogAccess {
     const result = await this.docClient
     .query({
       TableName: this.blogsTable,
-      KeyConditionExpression: 'published = :published',
-      ExpressionAttributeValues: {
-        ':published': true
-      }
     })
     .promise()
 
-    const items = result.Items;
+    const items = result.Items.filter(item => item.published);
 
     return items as BlogItem[];
   }
