@@ -5,6 +5,8 @@ plugins:
   - serverless-webpack
   - serverless-iam-roles-per-function
 
+package:
+  individually: true
 provider:
   name: aws
   runtime: nodejs12.x
@@ -36,7 +38,6 @@ functions:
           method: get
           path: blogs
           cors: true
-          authorizer: Auth
   GetUserBlogs:
     handler: src/lambda/http/getUserBlogs.handler
     iamRoleStatements:

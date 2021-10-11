@@ -3,7 +3,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { createLogger } from '../../libs/logger'
 import { getUserId } from '../../auth/utils'
 import { middyfy } from '../../libs/lambda'
-import { generateUploadUrl } from '../../helpers/todo'
+import { generateUploadUrl } from '../../helpers/blog'
 
 const logger = createLogger('getUploadUrl')
 
