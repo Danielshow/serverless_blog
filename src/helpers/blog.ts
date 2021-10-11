@@ -51,7 +51,7 @@ export async function updateBlog(
   return updateBlogRequest
 }
 
-export async function deleteTodo(
+export async function deleteBlog(
   blogId: string,
   userId: string
 ): Promise<null> {
