@@ -32,17 +32,23 @@ export async function getUserBlogs(idToken: string): Promise<Blog[]> {
 export async function createBlog(
   idToken: string,
   newBlog: CreateBlogRequest
-): Promise<Blog> {
-  const response = await Axios.post(`${apiEndpoint}/blogs`,  JSON.stringify(newBlog), {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
+): Promise<Blog | null> {
+  try {
+    const response = await Axios.post(`${apiEndpoint}/blogs`, JSON.stringify(newBlog), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${idToken}`
+      }
+    })
+    console.log('Created blog:', response.data)
+    const blog = response.data as unknown as {
+      item: Blog
     }
-  })
-  const blog = response.data as unknown as {
-    item: Blog
+    return blog.item;
+  } catch(err) {
+    console.log(err)
+    return null
   }
-  return blog.item;
 }
 
 export async function patchBlog(

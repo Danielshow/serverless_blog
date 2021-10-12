@@ -1,34 +1,3 @@
-// import React from 'react'
-// import { Button, Header, Icon, Modal } from 'semantic-ui-react'
-
-// function BlogPage(props) {
-//   const { blog } = props;
-//   return (
-//     <Modal
-//       basic
-//       onClose={() => props.setOpen(false)}
-//       onOpen={() => props.setOpen(true)}
-//       open={props.open}
-//     >
-//       <Header icon>
-//         {blog.title}
-//       </Header>
-//       <Modal.Content scrolling>
-//         <p>
-//           {blog.content}
-//         </p>
-//       </Modal.Content>
-//       <Modal.Actions>
-//         <Button basic color='red' inverted onClick={() => props.setOpen(false)}>
-//           <Icon name='remove' /> Close
-//         </Button>
-//       </Modal.Actions>
-//     </Modal>
-    
-//   )
-// }
-
-
 import React, { useEffect, useRef } from 'react';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 

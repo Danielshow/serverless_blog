@@ -76,9 +76,14 @@ function BlogaNavbar(props) {
                   Login
                 </div>
                 :
-                <div onClick={props.handleLogout} className="custom-button">
-                  Logout
-                </div>
+                <> 
+                  <div onClick={props.handleLogout} className="custom-button">
+                    Logout
+                  </div>
+                  <NavLink to="/blogs/mine" className="custom-button">
+                    My Blogs
+                  </NavLink> 
+                </>
               }
               </NavItem>
             </Nav>

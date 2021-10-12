@@ -9,6 +9,7 @@ cache:
 # Pre-testing installs
 install:
   - npm install -g serverless
+  - cd ./backend
   - sls config credentials --provider aws --key "$AWS_ACCESS_KEY_ID" --secret "$AWS_SECRET_ACCESS_KEY" --profile serverless
   - npm install
   - export NODE_OPTIONS="--max-old-space-size=8192"

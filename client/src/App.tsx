@@ -5,6 +5,8 @@ import "./assets/css/now-ui-kit.min.css";
 import "./assets/css/custom.css"
 import LandingPage from './pages/LandingPage';
 import BlogsPage from './pages/BlogsPage';
+import BlogsPersonal from './pages/BlogPersonal';
+import NewBlog from './pages/NewBlog';
 import Auth from './auth/Auth'
 
 export interface AppProps {}
@@ -38,10 +40,19 @@ export default class App extends Component<AppProps, AppState> {
         <div className="App">
           <Switch>
             <Route
+              path="/blogs/new"
+              render={(props) => <NewBlog {...props} auth={this.props.auth} handleLogin={this.handleLogin} handleLogout={this.handleLogout}/>}
+            />
+            <Route
+              path="/blogs/mine"
+              render={(props) => <BlogsPersonal {...props} auth={this.props.auth} handleLogin={this.handleLogin} handleLogout={this.handleLogout}/>}
+            />
+            <Route
               path="/blogs"
               render={(props) => <BlogsPage {...props} auth={this.props.auth} handleLogin={this.handleLogin} handleLogout={this.handleLogout}/>}
             />
             <Route
+              exact
               path="/"
               render={(props) => <LandingPage {...props} auth={this.props.auth} handleLogin={this.handleLogin} handleLogout={this.handleLogout}/>}
             />

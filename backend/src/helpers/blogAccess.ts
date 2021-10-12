@@ -1,11 +1,11 @@
 import * as AWS from "aws-sdk";
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
-// import * as AWSXray from 'aws-xray-sdk';
+import * as AWSXray from 'aws-xray-sdk';
 
 import { BlogItem } from "../models/BlogItem";
 import { BlogUpdate } from "../models/BlogUpdate";
 
-// const XAWS = AWSXray.captureAWS(AWS)
+const XAWS = AWSXray.captureAWS(AWS)
 
 export class BlogAccess {
   constructor(
@@ -41,6 +41,7 @@ export class BlogAccess {
   }
 
   async createBlog(item: BlogItem): Promise<BlogItem> {
+    console.log("item to create", item)
     await this.docClient.put({
         TableName: this.blogsTable,
         Item: item
@@ -104,11 +105,11 @@ export class BlogAccess {
 function createDynamoDBClient() {
   if (process.env.IS_OFFLINE) {
     console.log("Creating a local DynamoDB instance");
-    return new AWS.DynamoDB.DocumentClient({
+    return new XAWS.DynamoDB.DocumentClient({
       region: "localhost",
       endpoint: "http://localhost:8000"
     });
   }
 
-  return new AWS.DynamoDB.DocumentClient();
+  return new XAWS.DynamoDB.DocumentClient();
 }
