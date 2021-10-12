@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "todo",
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "[$&+,:;=?@#'<>.^*()%!a-zA-Z0-9].*$"
+        },
+        "content": {
+            "type": "string"
+        }
+    },
+    "required": ["title", "content"],
+    "additionalProperties": false
+}

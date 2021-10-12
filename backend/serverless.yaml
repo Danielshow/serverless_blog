@@ -73,6 +73,9 @@ functions:
           path: blogs
           cors: true
           authorizer: Auth
+          request:
+            schema:
+              application/json: "${file(models/create-blog-request.json)}"
   UpdateBlog:
     handler: src/lambda/http/updateBlog.handler
     iamRoleStatements:
@@ -86,6 +89,9 @@ functions:
           path: blogs/{blogId}
           cors: true
           authorizer: Auth
+          request:
+            schema:
+              application/json: "${file(models/update-blog-request.json)}"
   DeleteBlog:
     handler: src/lambda/http/deleteBlog.handler
     iamRoleStatements:
