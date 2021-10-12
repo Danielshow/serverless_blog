@@ -42,6 +42,7 @@ function BlogsPage(props: BlogProps) {
               <h1 className="title">Blogs</h1>
               <section className="cards-wrapper">
                 { blogs.map((blog: Blog) => {
+                  const parsedBlog = JSON.parse(blog.content)
                   return (
                     <div className="card-grid-space" key={blog.blogId}>
                       <NavLink
@@ -54,7 +55,7 @@ function BlogsPage(props: BlogProps) {
                         <div>
                           <h1>{blog.title}</h1>
                           <p>
-                            {blog.content.substring(0, 100)}
+                          {parsedBlog.blocks[0].text.substring(0, 20)}...
                           </p>
                           <div className="date">{blog.publishedAt}</div>
                         </div>

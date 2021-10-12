@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
-import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertFromRaw } from "draft-js";
 import { stateToHTML } from 'draft-js-export-html';
 
 const BlogPage = ({ blog, open, setOpen }) => {
     const modalRef = useRef(null);
+    console.log(blog.content);
     const contentState = convertFromRaw(JSON.parse(blog.content));
     const editorState = stateToHTML(EditorState.createWithContent(contentState).getCurrentContent());
     useEffect(

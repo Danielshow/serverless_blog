@@ -7,6 +7,7 @@ import { createBlog } from '../api/blogs-api'
 import {
   Input,
 } from 'semantic-ui-react'
+import { Dimmer, Loader } from 'semantic-ui-react'
 import { Button } from 'reactstrap';
 
 class NewBlog extends Component{
@@ -14,7 +15,8 @@ class NewBlog extends Component{
     super(props);
     this.state = {
       editorState: EditorState.createEmpty(),
-      title: ''
+      title: '',
+      loading: false,
     };
   }
 
@@ -36,18 +38,29 @@ class NewBlog extends Component{
 
   saveBlog = async (event) => {
     event.preventDefault();
+    this.setState({ loading: true });
     const { title } = this.state;
     const rawContentState = convertToRaw(
       this.state.editorState.getCurrentContent()
     );
-    await createBlog(this.props.auth.idToken, {title, content: rawContentState});
-    this.props.history.push('/blogs/mine');
+    console.log(rawContentState, "REQ");
+    createBlog(this.props.auth.idToken, {title, content: rawContentState}).then(() => {
+      this.setState({ loading: false });
+      this.props.history.push('/blogs/mine');
+    }).catch(() => {
+      this.setState({ loading: false });
+    });
   }
 
   render() {
-    const { editorState } = this.state;
+    const { editorState, loading } = this.state;
     return (
       <>
+      { loading && (
+        <Dimmer active>
+          <Loader size='massive'>Loading</Loader>
+        </Dimmer>
+      )}
        <div className="wrapper">
           <BlogaNavbar {...this.props} />
           <div className="blog-header">

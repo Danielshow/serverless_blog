@@ -7,6 +7,7 @@ import { Blog } from '../types/Blog'
 import { Dimmer, Loader, Icon } from 'semantic-ui-react'
 import BlogPage from '../components/BlogPage'
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify'
 
 interface BlogProps {
     auth: Auth
@@ -43,22 +44,46 @@ function BlogsPage(props: BlogProps) {
     deleteBlog(props.auth.idToken, blog.blogId).then(() => {
       setBlogs(blogs.filter((b) => b.blogId !== blog.blogId));
       setLoading(false);
+    }).catch((error) => {
+      setLoading(false);
+      toast.error('🦄 Error deleting Blog', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     });
   }
 
   const handlePublished = (blog: Blog) => {
     setLoading(true);
+    console.log("publishing blog", blog.content)
     patchBlog(props.auth.idToken, blog.blogId, { published: !blog.published, title: blog.title, content: blog.content }).then(() => {
       const updatedBlogs = blogs.map((b) => {
         if (b.blogId === blog.blogId) {
           blog.published = !blog.published;
+          blog.publishedAt = blog.published ? new Date().toISOString() : '';
           return blog;
         }
         return b;
       })
       setBlogs(updatedBlogs);
       setLoading(false);
-    });
+    }).catch(() => {
+      setLoading(false);
+      toast.error('🦄 Error publishing Blog', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    })
   }
 
   return (
@@ -69,8 +94,19 @@ function BlogsPage(props: BlogProps) {
           <Loader size='massive'>Loading</Loader>
         </Dimmer>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        />
       <div className="wrapper">
-        <div className="page-header">
+        <div className="blog-header">
           <div className="content">
             <Container>
               <h1 className="title">Blogs</h1>
@@ -82,6 +118,7 @@ function BlogsPage(props: BlogProps) {
                   <h3 className="center">No blogs found</h3>
                 )}
                 { blogs.map((blog: Blog) => {
+                  const parsedBlog = JSON.parse(blog.content)
                   return (
                     <div className="card-grid-space " key={blog.blogId}>
                       <NavB
@@ -93,7 +130,7 @@ function BlogsPage(props: BlogProps) {
                           setOpen(true);
                           }}>{blog.title}</h1>
                           <p>
-                            {blog.content.substring(0, 100)}
+                          {parsedBlog.blocks[0].text.substring(0, 20)}...
                           </p>
                           <div className="date">{blog.publishedAt ? new Date(blog.publishedAt).toUTCString() : 'Not published'}</div>
                           <Icon link name='pencil' onClick={() => {
