@@ -18,9 +18,18 @@ export const handler = middyfy(async (
     logger.info('Processing event: ', { body:event.body })
     let newBlog: CreateBlogRequest;
     if (typeof event.body == 'string') {
-       newBlog = JSON.parse(event.body)
+      const parsedBody = JSON.parse(event.body);
+      const content = typeof parsedBody.content == 'object' ? JSON.stringify(parsedBody.content) : parsedBody.content;
+       newBlog = {
+        title: parsedBody.title,
+        content,
+       }
     } else {
-       newBlog = event.body
+       const body : any = event.body;
+       newBlog = {
+        title: body.title,
+        content: typeof body.content == 'object' ? JSON.stringify(body.content) : body.content,
+       }
     }
     const userId = getUserId(event);
     console.log(userId)
