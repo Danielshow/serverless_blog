@@ -132,7 +132,7 @@ function BlogsPage(props: BlogProps) {
                     <div className="card-grid-space " key={blog.blogId}>
                       <div className="card-blog-2">
                         <figure className="card__thumbnail">
-                          <img src={ blog.attachmentUrl || "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"}/>
+                          <img src={ blog.attachmentUrl || "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"} alt="Blog"/>
                           <div className="published_date">
                             {blog.publishedAt
                               ? new Date(blog.publishedAt).toUTCString()
@@ -164,7 +164,10 @@ function BlogsPage(props: BlogProps) {
                               }}
                             />
                           </span>
-                          <span className="card__title">{blog.title}</span>
+                          <span className="card__title" onClick={() => {
+                            setClickedBlog(blog);
+                            setOpen(true);
+                          }}>{blog.title}</span>
                           <span className="card__description"> {parsedBlog.blocks[0].text.substring(0, 20)}... </span>
                         </figure>
                       </div>
