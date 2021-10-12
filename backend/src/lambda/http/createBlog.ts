@@ -14,15 +14,25 @@ const logger = createLogger('createBlogs')
 export const handler = middyfy(async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  logger.info('Processing event: ', event)
-  const newBlog: CreateBlogRequest = JSON.parse(event.body)
-  const userId = getUserId(event);
-  logger.info("Create new Blog", { newBlog })
-  const result = await createBlog(newBlog, userId)
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      item: result,
-    })
+  try {
+    logger.info('Processing event: ', { body:event.body })
+    let newBlog;
+    if (typeof event.body == 'string') {
+       newBlog = JSON.parse(event.body)
+    } else {
+       newBlog = event.body
+    }
+    const userId = getUserId(event);
+    console.log(userId)
+    logger.info("Create new Blog", { newBlog })
+    const result = await createBlog(newBlog, userId)
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        item: result,
+      })
+    }
+  } catch(err) {
+    logger.error("Error creating blog", { error: err.message })
   }
 })
