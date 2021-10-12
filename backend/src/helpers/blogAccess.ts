@@ -63,7 +63,7 @@ export class BlogAccess {
             'set title = :title, content = :content, published = :published, publishedAt = :publishedAt',
           ExpressionAttributeValues: {
             ':title': blog.title,
-            ':content': blog.title,
+            ':content': blog.content,
             ':published': blog.published,
             ':publishedAt': publishedAt
           }
