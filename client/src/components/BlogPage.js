@@ -5,7 +5,6 @@ import { stateToHTML } from 'draft-js-export-html';
 
 const BlogPage = ({ blog, open, setOpen }) => {
     const modalRef = useRef(null);
-    console.log(blog.content);
     const contentState = convertFromRaw(JSON.parse(blog.content));
     const editorState = stateToHTML(EditorState.createWithContent(contentState).getCurrentContent());
     useEffect(

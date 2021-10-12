@@ -8,6 +8,7 @@ import BlogsPage from './pages/BlogsPage';
 import BlogsPersonal from './pages/BlogPersonal';
 import NewBlog from './pages/NewBlog';
 import Auth from './auth/Auth'
+import { EditBlog } from './pages/EditBlog';
 
 export interface AppProps {}
 
@@ -39,6 +40,10 @@ export default class App extends Component<AppProps, AppState> {
       <Router history={this.props.history}>
         <div className="App">
           <Switch>
+            <Route
+              path="/blogs/edit/:blogId"
+              render={(props) => <EditBlog {...props} auth={this.props.auth} handleLogin={this.handleLogin} handleLogout={this.handleLogout}/>}
+            />
             <Route
               path="/blogs/new"
               render={(props) => <NewBlog {...props} auth={this.props.auth} handleLogin={this.handleLogin} handleLogout={this.handleLogout}/>}
