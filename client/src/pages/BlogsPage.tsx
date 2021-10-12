@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import BlogaNavbar from "../components/BlogaNavbar.js";
-import { Button, Container, NavLink } from "reactstrap";
+import { Container } from "reactstrap";
 import Auth from "../auth/Auth";
 import { getBlogs } from "../api/blogs-api";
 import { Blog } from "../types/Blog";
-import { Link } from "react-router-dom";
-import { Dimmer, Loader, Modal } from "semantic-ui-react";
+import { Dimmer, Loader } from "semantic-ui-react";
 import BlogPage from "../components/BlogPage";
 
 interface BlogProps {
