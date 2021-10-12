@@ -12,7 +12,12 @@ export const handler = middyfy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     try {
       const blogId = event.pathParameters.blogId;
-      const updatedBlog: UpdateBlogRequest = JSON.parse(event.body);
+      let updatedBlog: UpdateBlogRequest;
+      if (typeof event.body == 'string') {
+        updatedBlog = JSON.parse(event.body)
+      } else {
+        updatedBlog = event.body
+      }
       const userId = getUserId(event);
       logger.info("Update a blog for a user with id", { blogId, userId });
       await updateBlog(updatedBlog, userId, blogId);

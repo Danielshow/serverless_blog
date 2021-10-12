@@ -16,7 +16,7 @@ export const handler = middyfy(async (
 ): Promise<APIGatewayProxyResult> => {
   try {
     logger.info('Processing event: ', { body:event.body })
-    let newBlog;
+    let newBlog: CreateBlogRequest;
     if (typeof event.body == 'string') {
        newBlog = JSON.parse(event.body)
     } else {
