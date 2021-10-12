@@ -64,7 +64,7 @@ export async function patchBlog(
   })
 }
 
-export async function deleteTodo(
+export async function deleteBlog(
   idToken: string,
   blogId: string
 ): Promise<void> {

@@ -1,8 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertFromRaw } from "draft-js";
+import { stateToHTML } from 'draft-js-export-html';
 
 const BlogPage = ({ blog, open, setOpen }) => {
     const modalRef = useRef(null);
+    const contentState = convertFromRaw(JSON.parse(blog.content));
+    const editorState = stateToHTML(EditorState.createWithContent(contentState).getCurrentContent());
     useEffect(
         () => {
             if (open) {
@@ -24,9 +29,7 @@ const BlogPage = ({ blog, open, setOpen }) => {
                     {blog.title}
                   </Header>
                   <Modal.Content scrolling>
-                    <p>
-                      {blog.content}
-                    </p>
+                    <div dangerouslySetInnerHTML={{__html: editorState}} />
                   </Modal.Content>
                 </div>
                 <Button basic color='red' inverted onClick={() => setOpen(false)}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import BlogaNavbar from '../components/BlogaNavbar';
@@ -36,8 +36,11 @@ class NewBlog extends Component{
 
   saveBlog = async (event) => {
     event.preventDefault();
-    const { title, editorState } = this.state;
-    await createBlog(this.props.auth.idToken, {title, content: editorState});
+    const { title } = this.state;
+    const rawContentState = convertToRaw(
+      this.state.editorState.getCurrentContent()
+    );
+    await createBlog(this.props.auth.idToken, {title, content: rawContentState});
     this.props.history.push('/blogs/mine');
   }
 
@@ -56,6 +59,7 @@ class NewBlog extends Component{
                 placeholder="Enter blog title..."
                 onChange={this.handleTitleChange}
                 value={this.state.title}
+                required
               />
               </div>
               <Editor
