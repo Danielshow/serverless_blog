@@ -53,7 +53,7 @@ class NewBlog extends Component {
       this.setState({ loading: false });
       return
     }
-    createBlog(this.props.auth.idToken, { title, content: rawContentState })
+    createBlog(this.props.auth.idToken, { title, content: JSON.stringify(rawContentState) })
       .then(() => {
         this.setState({ loading: false });
         this.props.history.push("/blogs/mine");
